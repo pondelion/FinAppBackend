@@ -5,6 +5,9 @@ verify_ssl = true
 
 [dev-packages]
 pdoc = "*"
+mypy = "*"
+flake8 = "*"
+pytest = "*"
 
 [packages]
 
