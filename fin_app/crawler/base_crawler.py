@@ -8,6 +8,14 @@ class BaseCrawler:
         pass
 
     @abstractmethod
-    def crawl(self):
-        """crawl"""
-        pass
+    def run(self):
+        """single shot crawl"""
+        raise NotImplementedError
+
+    @abstractmethod
+    def schedule(
+        self,
+
+    ):
+        """scheduled crawl"""
+        raise NotImplementedError
