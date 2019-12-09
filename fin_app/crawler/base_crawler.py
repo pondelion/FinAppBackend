@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class BaseCrawler:
+class BaseCrawler(metaclass=ABCMeta):
 
     def __init__(self):
         """init"""
@@ -12,10 +12,10 @@ class BaseCrawler:
         """single shot crawl"""
         raise NotImplementedError
 
-    @abstractmethod
-    def schedule(
-        self,
+    # @abstractmethod
+    # def schedule(
+    #     self,
 
-    ):
-        """scheduled crawl"""
-        raise NotImplementedError
+    # ):
+    #     """scheduled crawl"""
+    #     raise NotImplementedError
