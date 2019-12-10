@@ -8,4 +8,4 @@ _aws_session = boto3.session.Session(
     aws_secret_access_key=AWSConfig.SECRET_ACCESS_KEY,
 )
 
-dynamodb = _aws_session.resource('dynamodb')
+DYNAMO_DB = _aws_session.resource('dynamodb')

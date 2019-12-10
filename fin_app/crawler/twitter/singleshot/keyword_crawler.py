@@ -109,14 +109,17 @@ class KeywordCrawler(BaseCrawler):
             count (int, optional): [description]. Defaults to None.
             callback (Callback, optional): [description]. Defaults to None.
         """
-        self._add_keywords(keywords)
+        self.add_keywords(keywords)
         if count is not None:
             self._count = count
         sub_keywords = [
             self._keywords[i::self._CPU_COUNT] for i in range(self._CPU_COUNT)
         ]
         processes = [
-            Process(self._crawl, (keywords, self._count, callback)) for keywords in sub_keywords
+            Process(
+                target=self._crawl,
+                args=(keywords, self._count, callback)
+            ) for keywords in sub_keywords
         ]
         [p.start() for p, keywords in zip(processes, sub_keywords) if len(keywords) != 0]
         [p.join() for p, keywords in zip(processes, sub_keywords) if len(keywords) != 0]
