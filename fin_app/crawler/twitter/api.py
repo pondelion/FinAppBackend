@@ -1,6 +1,6 @@
 import tweepy
-from config import TwitterConfig
 
+from utils.config import TwitterConfig
 
 _auth = tweepy.OAuthHandler(
     TwitterConfig.CONSUMER_KEY,

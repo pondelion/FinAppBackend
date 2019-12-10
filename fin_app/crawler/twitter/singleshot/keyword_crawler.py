@@ -1,9 +1,10 @@
-from typing import List, Dict
 import multiprocessing
 from abc import ABCMeta, abstractmethod
 from multiprocessing import Process
-from ..base_crawler import BaseCrawler
-from .api import API
+from typing import Dict, List
+
+from ...base_crawler import BaseCrawler
+from ..api import API
 
 
 class KeywordCrawler(BaseCrawler):

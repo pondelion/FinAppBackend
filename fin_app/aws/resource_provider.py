@@ -1,6 +1,6 @@
 import boto3
-from ..utils.config import AWSConfig
 
+from ..utils.config import AWSConfig
 
 _aws_session = boto3.session.Session(
     region_name=AWSConfig.REGION_NAME,
