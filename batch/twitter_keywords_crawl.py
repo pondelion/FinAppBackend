@@ -1,5 +1,7 @@
 import sys
 sys.path.append('..')
+from argparse import ArgumentParser
+
 from fin_app.crawler.twitter.singleshot.keyword_crawler import KeywordCrawler
 from fin_app.database.nosql.dynamodb import DynamoDB
 from fin_app.utils.config import AWSConfig
