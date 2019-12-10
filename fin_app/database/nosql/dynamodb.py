@@ -27,29 +27,34 @@ class DynamoDB:
         if not isinstance(items, list):
             items = [items]
 
+        responses = []
+        try:
+            table = DYNAMO_DB.Table(table_name)
+        except Exception as e:
+            Logger.e('DynamoDB#put_item', f'Failed at DYNAMO_DB.Table(table_name) : {e}')
+            raise e
+
         if use_batch_writer:
-            try:
-                table = DYNAMO_DB.Table(table_name)
-                with table.batch_writer() as batch:
-                    responses = [
-                        batch.put_item(
-                            Item=item,
-                        ) for item in items
-                    ]
-            except Exception as e:
-                Logger.e('DynamoDB#put_item', f'Failed to put data to DynamoDB : {e}')
-                raise e
+            with table.batch_writer() as batch:
+                for item in items:
+                    try:
+                        responses.append(
+                            batch.put_item(
+                                Item=item,
+                            )
+                        )
+                    except Exception as e:
+                        Logger.e('DynamoDB#put_item', f'Failed to put data to DynamoDB. Skipping : {e}')
         else:
-            try:
-                table = DYNAMO_DB.Table(table_name)
-                responses = [
-                    table.put_item(
-                        TableName=table_name,
-                        Item=item,
-                    ) for item in items
-                ]
-            except Exception as e:
-                Logger.e('DynamoDB#put_item', f'Failed to put data to DynamoDB : {e}')
-                raise e
+            for item in items:
+                try:
+                    responses.append(
+                        table.put_item(
+                            TableName=table_name,
+                            Item=item,
+                        )
+                    )
+                except Exception as e:
+                    Logger.e('DynamoDB#put_item', f'Failed to put data to DynamoDB. Skipping : {e}')
 
         return responses

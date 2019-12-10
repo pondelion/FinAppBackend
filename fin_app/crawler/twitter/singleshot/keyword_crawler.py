@@ -127,11 +127,11 @@ class KeywordCrawler(BaseCrawler):
             [p.start() for p, keywords in zip(processes, sub_keywords) if len(keywords) != 0]
             [p.join() for p, keywords in zip(processes, sub_keywords) if len(keywords) != 0]
         else:
-            [self._crawl(
+            self._crawl(
                 keywords=self._keywords,
                 count=self._count,
                 callback=callback
-            )]
+            )
 
     def _crawl(
         self,
