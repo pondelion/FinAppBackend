@@ -1,6 +1,7 @@
 import sys
 sys.path.append('..')
 from argparse import ArgumentParser
+import random
 
 import pandas as pd
 
@@ -16,13 +17,14 @@ class Callback(KeywordCrawler.Callback):
         print('on_finished')
         print(keyword)
         print(len(data))
+
         print('='*100)
         items = [format_data(item._json) for item in data]
         [item.update({'keyword': keyword}) for item in items]
         for item, d in zip(items, data):
             item['created_at'] = int(d.created_at.timestamp())
         DynamoDB.put_items(
-            AWSConfig.DYNAMODB_TWITTER_TEST_TABLE_NAME,
+            AWSConfig.DYNAMODB_TWITTER_TABLE_NAME,
             items,
         )
 
@@ -41,8 +43,10 @@ def main():
     print(df_stocklist.head())
     print(len(df_stocklist))
     kc = KeywordCrawler()
+    stocklist = list(df_stocklist['銘柄名'])
+    stocklist = random.sample(stocklist, len(stocklist))
     kc.run(
-        keywords=list(df_stocklist['銘柄名']),
+        keywords=stocklist,
         count=300,
         callback=Callback(),
         parallel=False,
