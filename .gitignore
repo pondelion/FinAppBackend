@@ -1,3 +1,4 @@
 key
 twitter.yml
 aws.yml
+.mypy_cache
