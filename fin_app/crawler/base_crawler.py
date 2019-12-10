@@ -11,11 +11,3 @@ class BaseCrawler(metaclass=ABCMeta):
     def run(self):
         """single shot crawl"""
         raise NotImplementedError
-
-    # @abstractmethod
-    # def schedule(
-    #     self,
-
-    # ):
-    #     """scheduled crawl"""
-    #     raise NotImplementedError

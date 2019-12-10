@@ -1,5 +1,12 @@
 import copy
 from typing import Dict
+import json
+from decimal import Decimal
+
+
+def format_data(data: Dict):
+    data = empty2null(data)
+    return json.loads(json.dumps(data), parse_float=Decimal)
 
 
 def empty2null(data: Dict):
@@ -15,8 +22,9 @@ def empty2null(data: Dict):
 
     if isinstance(data, dict):
         for k, v in ret.items():
-            ret[k] = empty2null(v)
+            ret[k] = format_data(v)
 
+    # convert empty string to null
     if data == '':
         ret = None
 

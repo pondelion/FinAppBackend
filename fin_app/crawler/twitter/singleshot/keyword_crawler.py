@@ -100,7 +100,8 @@ class KeywordCrawler(BaseCrawler):
         self,
         keywords: List[str] = [],
         count: int = None,
-        callback: Callback = DefaultCallback()
+        callback: Callback = DefaultCallback(),
+        parallel: bool = True,
     ) -> None:
         """[summary]
         
@@ -112,17 +113,25 @@ class KeywordCrawler(BaseCrawler):
         self.add_keywords(keywords)
         if count is not None:
             self._count = count
-        sub_keywords = [
-            self._keywords[i::self._CPU_COUNT] for i in range(self._CPU_COUNT)
-        ]
-        processes = [
-            Process(
-                target=self._crawl,
-                args=(keywords, self._count, callback)
-            ) for keywords in sub_keywords
-        ]
-        [p.start() for p, keywords in zip(processes, sub_keywords) if len(keywords) != 0]
-        [p.join() for p, keywords in zip(processes, sub_keywords) if len(keywords) != 0]
+        
+        if parallel:
+            sub_keywords = [
+                self._keywords[i::self._CPU_COUNT] for i in range(self._CPU_COUNT)
+            ]
+            processes = [
+                Process(
+                    target=self._crawl,
+                    args=(keywords, self._count, callback)
+                ) for keywords in sub_keywords
+            ]
+            [p.start() for p, keywords in zip(processes, sub_keywords) if len(keywords) != 0]
+            [p.join() for p, keywords in zip(processes, sub_keywords) if len(keywords) != 0]
+        else:
+            [self._crawl(
+                keywords=self._keywords,
+                count=self._count,
+                callback=callback
+            )]
 
     def _crawl(
         self,

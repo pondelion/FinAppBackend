@@ -2,10 +2,12 @@ import sys
 sys.path.append('..')
 from argparse import ArgumentParser
 
+import pandas as pd
+
 from fin_app.crawler.twitter.singleshot.keyword_crawler import KeywordCrawler
 from fin_app.database.nosql.dynamodb import DynamoDB
-from fin_app.utils.config import AWSConfig
-from fin_app.utils.dynamodb import empty2null
+from fin_app.utils.config import AWSConfig, DataLocationConfig
+from fin_app.utils.dynamodb import format_data
 
 
 class Callback(KeywordCrawler.Callback):
@@ -14,9 +16,8 @@ class Callback(KeywordCrawler.Callback):
         print('on_finished')
         print(keyword)
         print(len(data))
-        # print(data[1].text)
         print('='*100)
-        items = [empty2null(item._json) for item in data]
+        items = [format_data(item._json) for item in data]
         [item.update({'keyword': keyword}) for item in items]
         for item, d in zip(items, data):
             item['created_at'] = int(d.created_at.timestamp())
@@ -33,11 +34,18 @@ class Callback(KeywordCrawler.Callback):
 
 
 def main():
+    df_stocklist = pd.read_csv(
+        DataLocationConfig.STOCKLIST_FILE
+    )
+    df_stocklist['銘柄名'] = df_stocklist['銘柄名'].map(lambda x: x.replace('(株)', ''))
+    print(df_stocklist.head())
+    print(len(df_stocklist))
     kc = KeywordCrawler()
     kc.run(
-        keywords=['test', '寒い'],
-        count=2,
-        callback=Callback()
+        keywords=list(df_stocklist['銘柄名']),
+        count=300,
+        callback=Callback(),
+        parallel=False,
     )
 
 

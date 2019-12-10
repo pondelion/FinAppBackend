@@ -24,7 +24,7 @@ jobs:
         pipenv install --dev
     - name: build doc
       run: |
-        make
+        pipenv run pdoc --html fin_app --html-dir docs/html --overwrite
     - name: deploy
       uses: peaceiris/actions-gh-pages@v2.4.0
       env:
