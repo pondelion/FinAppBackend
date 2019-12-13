@@ -3,7 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
-    <title>fin_app API documentation</title>
+    <title>fin_app.a API documentation</title>
     <meta name="description" content="" />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
@@ -971,6 +971,32 @@ table {
     <ul id="index">
 
 
+    <li class="set"><h3><a href="#header-classes">Classes</a></h3>
+      <ul>
+        <li class="mono">
+        <span class="class_name"><a href="#fin_app.a.BadCase">BadCase</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#fin_app.a.BadCase.__init__">__init__</a></li>
+    <li class="mono"><a href="#fin_app.a.BadCase.add">add</a></li>
+    <li class="mono"><a href="#fin_app.a.BadCase.sub">sub</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#fin_app.a.GoodCase">GoodCase</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#fin_app.a.GoodCase.__init__">__init__</a></li>
+    <li class="mono"><a href="#fin_app.a.GoodCase.add">add</a></li>
+    <li class="mono"><a href="#fin_app.a.GoodCase.sub">sub</a></li>
+  </ul>
+
+        </li>
+      </ul>
+    </li>
 
     </ul>
   </div>
@@ -983,24 +1009,57 @@ table {
 
 
   <header id="section-intro">
-  <h1 class="title"><span class="name">fin_app</span> module</h1>
+  <h1 class="title"><span class="name">fin_app.a</span> module</h1>
   
   
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-fin_app', this);">Show source &equiv;</a></p>
-  <div id="source-fin_app" class="source">
-    <pre><code>import os
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-fin_app.a', this);">Show source &equiv;</a></p>
+  <div id="source-fin_app.a" class="source">
+    <pre><code>class BadCase:
 
-from .utils.config import AWSConfig
-from .utils.logger import Logger
+    def __init__(self):
+        self._a = 1
+        self._b = 4.3
 
-try:
-    os.environ["AWS_ACCESS_KEY_ID"] = AWSConfig.ACCESS_KEY_ID
-except Exception as e:
-    Logger.e('__init__', f'Failed to load config [AWSConfig.ACCESS_KEY_ID] : {e}')
-try:
-    os.environ["AWS_SECRET_ACCESS_KEY"] = AWSConfig.SECRET_ACCESS_KEY
-except Exception as e:
-    Logger.e('__init__', f'Failed to load config [AWSConfig.SECRET_ACCESS_KEY] : {e}')
+    def add(
+        self,
+        val: str  # ※
+    ) -> None:
+        self._a += val
+
+    def sub(
+        self,
+        val: float
+    ) -> float:
+        self._b += val
+
+
+class GoodCase:
+
+    def __init__(self):
+        self._a = 1
+        self._b = 4.3
+
+    def add(
+        self,
+        val: int  # ※
+    ) -> None:
+        self._a += val
+
+    def sub(
+        self,
+        val: float
+    ) -> None:
+        self._b += val
+
+
+if __name__ == '__main__':
+    bc = BadCase()
+    bc.add(10)
+    bc.sub(2.3)
+
+    gc = GoodCase()
+    gc.add(10)
+    gc.sub(2.3)
 </code></pre>
   </div>
 
@@ -1009,6 +1068,221 @@ except Exception as e:
   <section id="section-items">
 
 
+    <h2 class="section-title" id="header-classes">Classes</h2>
+      
+      <div class="item">
+      <p id="fin_app.a.BadCase" class="name">class <span class="ident">BadCase</span></p>
+      
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-fin_app.a.BadCase', this);">Show source &equiv;</a></p>
+  <div id="source-fin_app.a.BadCase" class="source">
+    <pre><code>class BadCase:
+
+    def __init__(self):
+        self._a = 1
+        self._b = 4.3
+
+    def add(
+        self,
+        val: str  # ※
+    ) -> None:
+        self._a += val
+
+    def sub(
+        self,
+        val: float
+    ) -> float:
+        self._b += val
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#fin_app.a.BadCase">BadCase</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="fin_app.a.BadCase.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-fin_app.a.BadCase.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-fin_app.a.BadCase.__init__" class="source">
+    <pre><code>def __init__(self):
+    self._a = 1
+    self._b = 4.3
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="fin_app.a.BadCase.add">
+    <p>def <span class="ident">add</span>(</p><p>self, val)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-fin_app.a.BadCase.add', this);">Show source &equiv;</a></p>
+  <div id="source-fin_app.a.BadCase.add" class="source">
+    <pre><code>def add(
+    self,
+    val: str  # ※
+) -> None:
+    self._a += val
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="fin_app.a.BadCase.sub">
+    <p>def <span class="ident">sub</span>(</p><p>self, val)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-fin_app.a.BadCase.sub', this);">Show source &equiv;</a></p>
+  <div id="source-fin_app.a.BadCase.sub" class="source">
+    <pre><code>def sub(
+    self,
+    val: float
+) -> float:
+    self._b += val
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="fin_app.a.GoodCase" class="name">class <span class="ident">GoodCase</span></p>
+      
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-fin_app.a.GoodCase', this);">Show source &equiv;</a></p>
+  <div id="source-fin_app.a.GoodCase" class="source">
+    <pre><code>class GoodCase:
+
+    def __init__(self):
+        self._a = 1
+        self._b = 4.3
+
+    def add(
+        self,
+        val: int  # ※
+    ) -> None:
+        self._a += val
+
+    def sub(
+        self,
+        val: float
+    ) -> None:
+        self._b += val
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#fin_app.a.GoodCase">GoodCase</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="fin_app.a.GoodCase.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-fin_app.a.GoodCase.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-fin_app.a.GoodCase.__init__" class="source">
+    <pre><code>def __init__(self):
+    self._a = 1
+    self._b = 4.3
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="fin_app.a.GoodCase.add">
+    <p>def <span class="ident">add</span>(</p><p>self, val)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-fin_app.a.GoodCase.add', this);">Show source &equiv;</a></p>
+  <div id="source-fin_app.a.GoodCase.add" class="source">
+    <pre><code>def add(
+    self,
+    val: int  # ※
+) -> None:
+    self._a += val
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="fin_app.a.GoodCase.sub">
+    <p>def <span class="ident">sub</span>(</p><p>self, val)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-fin_app.a.GoodCase.sub', this);">Show source &equiv;</a></p>
+  <div id="source-fin_app.a.GoodCase.sub" class="source">
+    <pre><code>def sub(
+    self,
+    val: float
+) -> None:
+    self._b += val
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
 
   </section>
 

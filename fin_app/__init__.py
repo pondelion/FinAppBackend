@@ -1,7 +1,7 @@
 import os
+
 from .utils.config import AWSConfig
 from .utils.logger import Logger
-
 
 try:
     os.environ["AWS_ACCESS_KEY_ID"] = AWSConfig.ACCESS_KEY_ID

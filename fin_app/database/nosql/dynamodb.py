@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Dict, List
 
 from ...aws.resource_provider import DYNAMO_DB
 from ...utils.logger import Logger
