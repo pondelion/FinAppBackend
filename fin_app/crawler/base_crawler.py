@@ -63,5 +63,7 @@ class BaseCrawler(metaclass=ABCMeta):
 
     @abstractmethod
     def run(self):
-        """single shot crawl"""
+        """run crawl
+        Subclass must implemets this method
+        """
         raise NotImplementedError

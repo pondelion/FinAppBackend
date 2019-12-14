@@ -42,12 +42,12 @@ def main():
 
     print(df_stocklist['銘柄コード'].unique())
 
-    years = range(1983, 2019)
+    years = range(1983, 2020)
     codes = df_stocklist['銘柄コード'].unique()
 
+    sc = StockpriceCrawler()
     for code in codes:
         for year in years:
-            sc = StockpriceCrawler()
             sc.run(
                 code=code,
                 year=year,

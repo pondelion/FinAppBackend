@@ -87,7 +87,7 @@ class KeywordCrawler(BaseCrawler):
         self,
         keywords: List[str],
         count: int,
-        callback: Callback,
+        callback: BaseCrawler.Callback,
     ) -> None:
         """[summary]
 

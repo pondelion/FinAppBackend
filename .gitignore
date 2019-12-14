@@ -4,3 +4,4 @@ aws.yml
 data_location.yml
 .mypy_cache
 .pytest_cache
+.envrc
