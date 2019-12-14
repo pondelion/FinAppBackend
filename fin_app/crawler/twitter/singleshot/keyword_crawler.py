@@ -65,7 +65,7 @@ class KeywordCrawler(BaseCrawler):
         count: int = 200,
     ):
         """[summary]
-        
+
         Args:
             keywords (List[str], optional): [description]. Defaults to [].
             count (int, optional): [description]. Defaults to 200.
@@ -90,7 +90,7 @@ class KeywordCrawler(BaseCrawler):
         keywords: List[str]
     ) -> None:
         """[summary]
-        
+
         Args:
             keywords (List[str]): [description]
         """
@@ -104,7 +104,7 @@ class KeywordCrawler(BaseCrawler):
         parallel: bool = True,
     ) -> None:
         """[summary]
-        
+
         Args:
             keywords (List[str], optional): [description]. Defaults to [].
             count (int, optional): [description]. Defaults to None.
@@ -113,7 +113,7 @@ class KeywordCrawler(BaseCrawler):
         self.add_keywords(keywords)
         if count is not None:
             self._count = count
-        
+
         if parallel:
             sub_keywords = [
                 self._keywords[i::self._CPU_COUNT] for i in range(self._CPU_COUNT)
@@ -140,7 +140,7 @@ class KeywordCrawler(BaseCrawler):
         callback: Callback,
     ) -> None:
         """[summary]
-        
+
         Args:
             keywords (List[str]): [description]
         """
