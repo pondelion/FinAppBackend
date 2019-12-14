@@ -1,6 +1,7 @@
 import sys
 sys.path.append('..')
 import os
+from typing import Dict
 
 import pandas as pd
 
@@ -12,14 +13,13 @@ class Callback(StockpriceCrawler.Callback):
 
     def on_finished(
         self,
-        code: int,
-        year: int,
         data: pd.DataFrame,
+        args: Dict,
     ) -> None:
 
         filepath = os.path.join(
             DataLocationConfig.STOCKPRICE_BASEDIR,
-            f'{year}/{code}.csv'
+            f'{args["year"]}/{args["code"]}.csv'
         )
         data.to_csv(
             filepath,
@@ -29,9 +29,8 @@ class Callback(StockpriceCrawler.Callback):
 
     def on_failed(
         self,
-        code: int,
-        year: int,
         e: Exception,
+        args: Dict,
     ) -> None:
         print(f'on_failed : {e}')
 

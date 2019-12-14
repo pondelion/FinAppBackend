@@ -10,63 +10,6 @@ from ...utils.logger import Logger
 
 class StockpriceCrawler(BaseCrawler):
 
-    class Callback(metaclass=ABCMeta):
-
-        @abstractmethod
-        def on_finished(
-            self,
-            code: int,
-            year: int,
-            data: pd.DataFrame,
-        ) -> None:
-            """[summary]
-            
-            Args:
-                code (int): [description]
-                year (int): [description]
-                data ([type]): [description]
-            
-            Raises:
-                NotImplementedError: [description]
-            """
-            raise NotImplementedError
-
-        @abstractmethod
-        def on_failed(
-            self,
-            code: int,
-            year: int,
-            e: Exception,
-        ) -> None:
-            """[summary]
-            
-            Args:
-                code (int): [description]
-                year (int): [description]
-                data ([type]): [description]
-            
-            Raises:
-                NotImplementedError: [description]
-            """
-            raise NotImplementedError
-
-    class DefaultCallback(Callback):
-        def on_finished(
-            self,
-            code: int,
-            year: int,
-            data: pd.DataFrame,
-        ) -> None:
-            pass
-
-        def on_failed(
-            self,
-            code: int,
-            year: int,
-            e: Exception,
-        ) -> None:
-            pass
-
     def __init__(self):
         self._URL = 'https://kabuoji3.com/stock/file.php'
 
@@ -74,7 +17,7 @@ class StockpriceCrawler(BaseCrawler):
         self,
         code: int,
         year: int,
-        callback: Callback = DefaultCallback(),
+        callback: BaseCrawler.Callback = BaseCrawler.DefaultCallback(),
     ) -> None:
         """[summary]
         
@@ -86,6 +29,10 @@ class StockpriceCrawler(BaseCrawler):
         Raises:
             Exception: [description]
         """
+        args = {
+            'code': code,
+            'year': year,
+        }
         try:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
@@ -103,7 +50,7 @@ class StockpriceCrawler(BaseCrawler):
         except Exception as e:
             Logger.e('StockpriceCrawler#crawl', f'Failed to post : {e}')
             callback.on_failed(
-                code, year, e
+                e, args
             )
             return
 
@@ -119,18 +66,18 @@ class StockpriceCrawler(BaseCrawler):
         except Exception as e:
             Logger.e('StockpriceCrawler#crawl', f'Failed to handle file : {e}')
             callback.on_failed(
-                code, year, e
+                e, args
             )
             return
 
         if self._validate_date(df_stockprice) is False:
             callback.on_failed(
-                code, year, Exception('Wrong data')
+                Exception('Wrong data'), args
             )
             return
 
         callback.on_finished(
-            code, year, df_stockprice
+            df_stockprice, args
         )
 
     def _validate_date(

@@ -13,14 +13,14 @@ from fin_app.utils.dynamodb import format_data
 
 class Callback(KeywordCrawler.Callback):
 
-    def on_finished(self, keyword, data):
+    def on_finished(self, data, args):
         print('on_finished')
-        print(keyword)
+        print(args["keyword"])
         print(len(data))
 
         print('='*100)
         items = [format_data(item._json) for item in data]
-        [item.update({'keyword': keyword}) for item in items]
+        [item.update({'keyword': args["keyword"]}) for item in items]
         for item, d in zip(items, data):
             item['created_at'] = int(d.created_at.timestamp())
         DynamoDB.put_items(
@@ -28,9 +28,9 @@ class Callback(KeywordCrawler.Callback):
             items,
         )
 
-    def on_failed(self, keyword, e):
+    def on_failed(self, e, args):
         print('on_failed')
-        print(keyword)
+        print(args["keyword"])
         print(e)
         print('='*100)
 

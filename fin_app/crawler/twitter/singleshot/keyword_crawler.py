@@ -9,56 +9,6 @@ from ..api import API
 
 class KeywordCrawler(BaseCrawler):
 
-    class Callback(metaclass=ABCMeta):
-
-        @abstractmethod
-        def on_finished(
-            self,
-            keyword: str,
-            data: List[Dict],
-        ) -> None:
-            """[summary]
-            
-            Args:
-                keyword (str): [description]
-                data (List[Dict]): [description]
-            
-            Raises:
-                NotImplementedError: [description]
-            """
-            raise NotImplementedError
-
-        @abstractmethod
-        def on_failed(
-            self,
-            keyword: str,
-            e: Exception,
-        ) -> None:
-            """[summary]
-            
-            Args:
-                keyword (str): [description]
-            
-            Raises:
-                NotImplementedError: [description]
-            """
-            raise NotImplementedError
-
-    class DefaultCallback(Callback):
-        def on_finished(
-            self,
-            keyword: str,
-            data: List[Dict],
-        ) -> None:
-            pass
-
-        def on_failed(
-            self,
-            keyword: str,
-            e: Exception,
-        ) -> None:
-            pass
-
     def __init__(
         self,
         keywords: List[str] = [],
@@ -100,7 +50,7 @@ class KeywordCrawler(BaseCrawler):
         self,
         keywords: List[str] = [],
         count: int = None,
-        callback: Callback = DefaultCallback(),
+        callback: BaseCrawler.Callback = BaseCrawler.DefaultCallback(),
         parallel: bool = True,
     ) -> None:
         """[summary]
@@ -145,11 +95,14 @@ class KeywordCrawler(BaseCrawler):
             keywords (List[str]): [description]
         """
         for keyword in keywords:
+            args = {
+                'keyword': keyword,
+            }
             try:
                 results = API.search(
                     q=keyword,
                     count=count
                 )
-                callback.on_finished(keyword, results)
+                callback.on_finished(results, args)
             except Exception as e:
-                callback.on_failed(keyword, e)
+                callback.on_failed(e, args)
