@@ -32,7 +32,7 @@ class Callback(StockpriceCrawler.Callback):
         e: Exception,
         args: Dict,
     ) -> None:
-        print(f'on_failed : {e}')
+        print(f'on_failed : {args["code"]}, {args["year"]} : {e}')
 
 
 def main():
@@ -42,7 +42,7 @@ def main():
 
     print(df_stocklist['銘柄コード'].unique())
 
-    years = range(1983, 2020)
+    years = range(1949, 1984)
     codes = df_stocklist['銘柄コード'].unique()
 
     sc = StockpriceCrawler()
