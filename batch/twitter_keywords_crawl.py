@@ -2,10 +2,11 @@ import sys
 sys.path.append('..')
 from argparse import ArgumentParser
 import random
+from datetime import datetime
 
 import pandas as pd
 
-from fin_app.crawler.twitter.singleshot.keyword_crawler import KeywordCrawler
+from fin_app.crawler.twitter.singleshot.tweepy_keyword_crawler import KeywordCrawler
 from fin_app.database.nosql.dynamodb import DynamoDB
 from fin_app.utils.config import AWSConfig, DataLocationConfig
 from fin_app.utils.dynamodb import format_data
@@ -48,6 +49,7 @@ def main():
     kc.run(
         keywords=stocklist,
         count=300,
+        lang='ja',
         callback=Callback(),
         parallel=False,
     )
