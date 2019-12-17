@@ -17,6 +17,7 @@ boto3 = "*"
 pyyaml = "*"
 pandas = "*"
 s3fs = "*"
+requests-oauthlib = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,7 +1,8 @@
 import copy
-from typing import Dict
 import json
 from decimal import Decimal
+from typing import Dict, Union
+
 from .logger import Logger
 
 
@@ -15,7 +16,7 @@ def format_data(data: Dict):
     return data
 
 
-def empty2null(data: Dict):
+def empty2null(data: Dict) -> Union[Dict, None]:
     """[summary]
 
     Args:

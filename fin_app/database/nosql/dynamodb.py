@@ -1,4 +1,6 @@
-from typing import List, Dict
+from typing import Dict, List
+
+from boto3.dynamodb.conditions import Key
 
 from ...aws.resource_provider import DYNAMO_DB
 from ...utils.logger import Logger
@@ -58,3 +60,25 @@ class DynamoDB:
                     Logger.e('DynamoDB#put_item', f'Failed to put data to DynamoDB. Skipping : {e}')
 
         return responses
+
+    @staticmethod
+    def partitionkey_query(
+        table_name: str,
+        partition_key_name: str,
+        partition_key: str,
+    ) -> List[Dict]:
+        try:
+            table = DYNAMO_DB.Table(table_name)
+        except Exception as e:
+            Logger.e('DynamoDB#partitionkey_query', f'Failed at DYNAMO_DB.Table(table_name) : {e}')
+            raise e
+
+        try:
+            response = table.query(
+                KeyConditionExpression=Key(partition_key_name).eq(partition_key)
+            )
+        except Exception as e:
+            Logger.e('DynamoDB#partitionkey_query', f'Failed to query : {e}')
+            return []
+
+        return response['Items']

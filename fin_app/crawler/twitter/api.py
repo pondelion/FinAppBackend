@@ -1,14 +1,22 @@
 import tweepy
+from requests_oauthlib import OAuth1Session
 
 from ...utils.config import TwitterConfig
 
-_auth = tweepy.OAuthHandler(
+_tweepy_auth = tweepy.OAuthHandler(
     TwitterConfig.CONSUMER_KEY,
     TwitterConfig.CONSUMER_SECRET
 )
-_auth.set_access_token(
+_tweepy_auth.set_access_token(
     TwitterConfig.ACCESS_TOKEN_KEY,
     TwitterConfig.ACCESS_TOKEN_SECRET,
 )
 
-API = tweepy.API(_auth)
+TWEEPY_API = tweepy.API(_tweepy_auth)
+
+TWITTER_API = OAuth1Session(
+    TwitterConfig.CONSUMER_KEY,
+    TwitterConfig.CONSUMER_SECRET,
+    TwitterConfig.ACCESS_TOKEN_KEY,
+    TwitterConfig.ACCESS_TOKEN_SECRET
+)
