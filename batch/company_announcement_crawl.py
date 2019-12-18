@@ -6,14 +6,14 @@ from datetime import datetime, date, timedelta
 from fin_app.crawler import CompanyAnnouncementCrawler
 from fin_app.database.nosql.dynamodb import DynamoDB
 from fin_app.utils.config import AWSConfig
+from fin_app.utils.logger import Logger
 
 
 class Callback(CompanyAnnouncementCrawler.Callback):
 
     def on_finished(self, data, args):
-        print('on_finished')
-        print(f'{args["start_dt"]} : {args["end_dt"]}')
-        print(len(data))
+        Logger.i('company_announcement_crawl : on_finished', f'{args["start_dt"]} : {args["end_dt"]}')
+        Logger.i('company_announcement_crawl : on_finished', len(data))
 
         [d.update({'company_code': int(d['company_code'])}) for d in data]
 
@@ -24,9 +24,8 @@ class Callback(CompanyAnnouncementCrawler.Callback):
         print('='*100)
 
     def on_failed(self, e, args):
-        print('on_failed')
-        print(f'{args["start_dt"]} : {args["end_dt"]}')
-        print(e)
+        Logger.i('company_announcement_crawl : on_failed', f'{args["start_dt"]} : {args["end_dt"]}')
+        Logger.i('company_announcement_crawl : on_failed', e)
         print('='*100)
 
 
@@ -34,11 +33,11 @@ def main():
 
     cac = CompanyAnnouncementCrawler()
 
-    start_dt = date(2019, 11, 1)
+    start_dt = date(2010, 2, 3)
     end_dt = date(2019, 12, 17)
 
     for i in range((end_dt - start_dt).days + 1):
-        dt = start_dt + timedelta(i)
+        dt = end_dt - timedelta(i)
         cac.run(
             start_dt=dt,
             end_dt=dt,
