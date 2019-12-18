@@ -1,1 +1,2 @@
 from .stockprice.stockprice_crawler import StockpriceCrawler
+from .company_announcement.company_announcement_crawler import CompanyAnnouncementCrawler

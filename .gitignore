@@ -3,6 +3,8 @@ twitter.yml
 aws.yml
 data_location.yml
 newsapi.yml
+dev.yml
 .mypy_cache
 .pytest_cache
 .envrc
+log

@@ -6,6 +6,7 @@ import os
 import pandas as pd
 
 from fin_app.utils.config import DataLocationConfig
+from fin_app.utils.logger import Logger
 
 
 def main():
@@ -49,7 +50,7 @@ def main():
             filepath,
             index=None
         )
-        print(f'Saved concat data to {filepath}')
+        Logger.i('concat_stockprice_data', f'Saved concat data to {filepath}')
         print('='*80)
 
 
