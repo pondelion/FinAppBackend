@@ -18,6 +18,9 @@ pyyaml = "*"
 pandas = "*"
 s3fs = "*"
 requests-oauthlib = "*"
+matplotlib = "*"
+mpl-finance = "*"
+fastprogress = "*"
 
 [requires]
 python_version = "3.7"

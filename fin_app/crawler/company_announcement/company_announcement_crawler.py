@@ -20,6 +20,13 @@ class CompanyAnnouncementCrawler(BaseCrawler):
         end_dt: datetime,
         callback: BaseCrawler.Callback = BaseCrawler.DefaultCallback(),
     ) -> None:
+        """[summary]
+        
+        Args:
+            start_dt (datetime): [description]
+            end_dt (datetime): [description]
+            callback (BaseCrawler.Callback, optional): [description]. Defaults to BaseCrawler.DefaultCallback().
+        """
         kwargs = {
             'start_dt': start_dt,
             'end_dt': end_dt,
@@ -55,10 +62,26 @@ class CompanyAnnouncementCrawler(BaseCrawler):
         self,
         res,
     ) -> bool:
+        """[summary]
+        
+        Args:
+            res ([type]): [description]
+        
+        Returns:
+            bool: [description]
+        """
         return 'items' in res
 
     def _parse_data(
         self,
         json_data: Dict,
     ) -> List:
+        """[summary]
+        
+        Args:
+            json_data (Dict): [description]
+        
+        Returns:
+            List: [description]
+        """
         return [d['Tdnet'] for d in json_data['items']]
