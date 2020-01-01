@@ -21,6 +21,7 @@ requests-oauthlib = "*"
 matplotlib = "*"
 mpl-finance = "*"
 fastprogress = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.7"
