@@ -5,7 +5,7 @@ class BaseStorage(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
-    def upload_file():
+    def save_file():
         raise NotImplementedError
 
     @staticmethod

@@ -1,5 +1,6 @@
 import os
 from typing import List
+import copy
 
 from .base_storage import BaseStorage
 from ..aws.resource_provider import S3 as S3_resource
@@ -9,7 +10,7 @@ from ..utils.config import AWSConfig
 class S3(BaseStorage):
 
     @staticmethod
-    def upload_file(
+    def save_file(
         local_filepath: str,
         s3_filepath: str,
         bucket_name: str = AWSConfig.S3_BUCKET_NAME,
@@ -32,7 +33,6 @@ class S3(BaseStorage):
     def get_filelist(
         basedir: str,
         bucket_name: str = AWSConfig.S3_BUCKET_NAME,
-        s3_filelist: List[str] = [],
         marker: str = '',
     ) -> List[str]:
         """[summary]
@@ -40,11 +40,7 @@ class S3(BaseStorage):
         Args:
             basedir (str): [description]
             bucket_name (str, optional): [description]. Defaults to AWSConfig.S3_BUCKET_NAME.
-            s3_filelist (List[str], optional): [description]. Defaults to [].
             marker (str, optional): [description]. Defaults to ''.
-
-        Raises:
-            RuntimeError: [description]
 
         Returns:
             List[str]: [description]
@@ -56,26 +52,28 @@ class S3(BaseStorage):
             Marker=marker,
         )
 
-        if 'Contents' not in objs:
-            return s3_filelist
-            # raise RuntimeError(f'No file found in specified path : {basedir}')
-
-        files = [o.get('Key') for o in objs.get('Contents')]
-
         s3_prefix = f's3://{bucket_name}/'
-        s3_paths = [os.path.join(
-            s3_prefix,
-            file,
-        ) for file in files]
+        s3_filelist = []
 
-        s3_filelist.extend(s3_paths)
+        while 'Contents' in objs:
+            files = [o.get('Key') for o in objs.get('Contents')]
 
-        if 'IsTruncated' in objs:
-            return S3.get_filelist(
-                basedir,
-                s3_filelist=s3_filelist,
-                marker=files[-1]
-            )
+            s3_paths = [os.path.join(
+                s3_prefix,
+                file,
+            ) for file in files]
+
+            s3_filelist += s3_paths
+
+            if 'IsTruncated' in objs:
+                marker = files[-1]
+                objs = bucket.meta.client.list_objects(
+                    Bucket=bucket.name,
+                    Prefix=basedir if basedir[-1] == '/' else basedir + '/',
+                    Marker=marker,
+                )
+            else:
+                break
 
         return s3_filelist
 

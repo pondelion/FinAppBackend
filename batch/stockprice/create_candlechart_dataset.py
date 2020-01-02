@@ -98,7 +98,7 @@ def main():
                     filepath=local_filepath
                 )
 
-                S3.upload_file(
+                S3.save_file(
                     local_filepath=local_filepath,
                     s3_filepath=s3_filepath,
                 )
