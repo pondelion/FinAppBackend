@@ -1,6 +1,5 @@
 import os
 from typing import List
-import copy
 
 from .base_storage import BaseStorage
 from ..aws.resource_provider import S3 as S3_resource
