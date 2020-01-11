@@ -22,6 +22,7 @@ matplotlib = "*"
 mpl-finance = "*"
 fastprogress = "*"
 tqdm = "*"
+schedule = "*"
 
 [requires]
 python_version = "3.7"
