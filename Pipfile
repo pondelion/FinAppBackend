@@ -23,6 +23,7 @@ mpl-finance = "*"
 fastprogress = "*"
 tqdm = "*"
 schedule = "*"
+feedparser = "*"
 
 [requires]
 python_version = "3.7"

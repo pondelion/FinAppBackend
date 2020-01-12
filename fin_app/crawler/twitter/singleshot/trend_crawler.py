@@ -34,7 +34,7 @@ class TrendCrawler(BaseCrawler):
             callback.on_failed(Exception('status_code != 200'), {})
 
         dt_now = datetime.now()
-        # print(ret.json()[0]['trends'])
+
         trends = [{
             'keyword': trend['name'],
             'volume': trend['tweet_volume'],
