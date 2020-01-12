@@ -8,7 +8,6 @@ import schedule
 from fin_app.crawler.twitter.singleshot.trend_crawler import TrendCrawler
 from fin_app.database.nosql.dynamodb import DynamoDB
 from fin_app.utils.config import AWSConfig, DataLocationConfig
-from fin_app.utils.dynamodb import format_data
 from fin_app.utils.logger import Logger
 
 
