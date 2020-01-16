@@ -23,6 +23,12 @@ class TopicRSSCrawler(BaseCrawler):
         callback: BaseCrawler.Callback = BaseCrawler.DefaultCallback(),
         topic: Topic = Topic.BUSSINESS
     ) -> None:
+        """[summary]
+        
+        Args:
+            callback (BaseCrawler.Callback, optional): [description]. Defaults to BaseCrawler.DefaultCallback().
+            topic (Topic, optional): [description]. Defaults to Topic.BUSSINESS.
+        """
 
         kwargs = {
             'topic': str(topic).replace('Topic.', '')

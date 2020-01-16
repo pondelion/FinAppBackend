@@ -16,6 +16,12 @@ class KeywordRSSCrawler(BaseCrawler):
         keyword: str,
         callback: BaseCrawler.Callback = BaseCrawler.DefaultCallback(),
     ) -> None:
+        """[summary]
+
+        Args:
+            keyword (str): [description]
+            callback (BaseCrawler.Callback, optional): [description]. Defaults to BaseCrawler.DefaultCallback().
+        """
 
         kwargs = {
             'keyword': keyword
