@@ -1,11 +1,11 @@
 import sys
-sys.path.append('../..')
-from datetime import datetime
 import time
+from datetime import datetime
 
 import schedule
 
-from fin_app.crawler.news.google import TopicRSSCrawler, Topic
+sys.path.append('../..')
+from fin_app.crawler.news.google import Topic, TopicRSSCrawler
 from fin_app.database.nosql.dynamodb import DynamoDB
 from fin_app.utils.config import AWSConfig, DataLocationConfig
 from fin_app.utils.logger import Logger
@@ -31,7 +31,7 @@ class Callback(TopicRSSCrawler.Callback):
         )
 
     def on_failed(self, e, args):
-        Logger.e(TAG, f'on_failed : {e}')
+        Logger.e(TAG, f'on_failed : {args["topic"]} : {e}')
         Logger.e(TAG, '='*100)
 
 

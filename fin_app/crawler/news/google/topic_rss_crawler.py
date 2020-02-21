@@ -1,6 +1,8 @@
+import io
 from enum import Enum
 
 import feedparser
+from timeout_decorator import timeout
 
 from ...base_crawler import BaseCrawler
 from ....utils.logger import Logger
@@ -35,9 +37,14 @@ class TopicRSSCrawler(BaseCrawler):
         }
 
         try:
-            res = feedparser.parse(topic.value)
-            entries = res.entries
+            feed = self._fetch(topic.value)
+            entries = feed.entries
         except Exception as e:
             callback.on_failed(e, kwargs)
+            return
 
         callback.on_finished(entries, kwargs)
+
+    @timeout(60)
+    def _fetch(self, url):
+        return feedparser.parse(url)
