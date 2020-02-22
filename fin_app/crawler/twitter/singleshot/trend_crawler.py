@@ -28,10 +28,12 @@ class TrendCrawler(BaseCrawler):
         except Exception as e:
             Logger.e('TrendCrawler#run', f'Failed to get from {self._TREND_URL} : {e}')
             callback.on_failed(e, {})
+            return
 
         if ret.status_code != 200:
             Logger.e('TrendCrawler#run', 'status_code != 200')
             callback.on_failed(Exception('status_code != 200'), {})
+            return
 
         dt_now = datetime.now()
 

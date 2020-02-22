@@ -15,14 +15,14 @@ class DynamoDB:
         use_batch_writer: bool = False,
     ) -> List:
         """[summary]
-        
+
         Args:
             table_name (str): [description]
             items (List[Dict]): [description]
-        
+
         Raises:
             e: [description]
-        
+
         Returns:
             List: [description]
         """
@@ -67,6 +67,19 @@ class DynamoDB:
         partition_key_name: str,
         partition_key: str,
     ) -> List[Dict]:
+        """[summary]
+
+        Args:
+            table_name (str): [description]
+            partition_key_name (str): [description]
+            partition_key (str): [description]
+
+        Raises:
+            e: [description]
+
+        Returns:
+            List[Dict]: [description]
+        """
         try:
             table = DYNAMO_DB.Table(table_name)
         except Exception as e:

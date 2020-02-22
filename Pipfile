@@ -24,6 +24,7 @@ fastprogress = "*"
 tqdm = "*"
 schedule = "*"
 feedparser = "*"
+timeout-decorator = "*"
 
 [requires]
 python_version = "3.7"
