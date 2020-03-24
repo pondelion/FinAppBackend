@@ -1,4 +1,3 @@
-import io
 from enum import Enum
 
 import feedparser
@@ -39,6 +38,8 @@ class TopicRSSCrawler(BaseCrawler):
         try:
             feed = self._fetch(topic.value)
             entries = feed.entries
+            if not self._validate_results(entries):
+                raise Exception('Invalid data.')
         except Exception as e:
             callback.on_failed(e, kwargs)
             return
@@ -48,3 +49,6 @@ class TopicRSSCrawler(BaseCrawler):
     @timeout(60)
     def _fetch(self, url):
         return feedparser.parse(url)
+
+    def _validate_results(self, entries):
+        return all(['published_parsed' in entry for entry in entries])

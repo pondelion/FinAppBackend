@@ -10,14 +10,16 @@ from fin_app.crawler.twitter.singleshot.tweepy_keyword_crawler import KeywordCra
 from fin_app.database.nosql.dynamodb import DynamoDB
 from fin_app.utils.config import AWSConfig, DataLocationConfig
 from fin_app.utils.dynamodb import format_data
+from fin_app.utils.logger import Logger
+
+
+TAG = 'twitter_crawl'
 
 
 class Callback(KeywordCrawler.Callback):
 
     def on_finished(self, data, args):
-        print('on_finished')
-        print(args["keyword"])
-        print(len(data))
+        Logger.d(TAG, f'on_finished : {args["keyword"]} : {len(data)}')
 
         print('='*100)
         items = [format_data(item._json) for item in data]
@@ -30,9 +32,7 @@ class Callback(KeywordCrawler.Callback):
         )
 
     def on_failed(self, e, args):
-        print('on_failed')
-        print(args["keyword"])
-        print(e)
+        Logger.d(TAG, f'on_failed : {args["keyword"]} : {e}')
         print('='*100)
 
 
@@ -44,15 +44,17 @@ def main():
     print(df_stocklist.head())
     print(len(df_stocklist))
     kc = KeywordCrawler()
-    stocklist = list(df_stocklist['銘柄名'])
-    stocklist = random.sample(stocklist, len(stocklist))
-    kc.run(
-        keywords=stocklist,
-        count=300,
-        lang='ja',
-        callback=Callback(),
-        parallel=False,
-    )
+
+    while True:
+        stocklist = list(df_stocklist['銘柄名'])
+        stocklist = random.sample(stocklist, len(stocklist))
+        kc.run(
+            keywords=stocklist,
+            count=300,
+            lang='ja',
+            callback=Callback(),
+            parallel=False,
+        )
 
 
 if __name__ == '__main__':
