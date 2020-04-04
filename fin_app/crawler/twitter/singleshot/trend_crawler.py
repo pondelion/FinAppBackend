@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from timeout_decorator import timeout
+
 from ...base_crawler import BaseCrawler
 from ..api import TWITTER_API
 from ....utils.logger import Logger
@@ -21,7 +23,7 @@ class TrendCrawler(BaseCrawler):
             'id': id
         }
         try:
-            ret = TWITTER_API.get(
+            ret = self._fetch(
                 url=self._TREND_URL,
                 params=params
             )
@@ -45,3 +47,11 @@ class TrendCrawler(BaseCrawler):
         } for trend in ret.json()[0]['trends']]
 
         callback.on_finished(trends, {})
+
+    @timeout(60)
+    def _fetch(self, url, params):
+        ret = TWITTER_API.get(
+            url=self._TREND_URL,
+            params=params
+        )
+        return ret

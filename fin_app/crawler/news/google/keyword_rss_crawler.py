@@ -1,6 +1,7 @@
 from urllib.parse import quote
 
 import feedparser
+from timeout_decorator import timeout
 
 from ...base_crawler import BaseCrawler
 from ....utils.logger import Logger
@@ -30,9 +31,14 @@ class KeywordRSSCrawler(BaseCrawler):
         keyword_encoded = quote(keyword)
 
         try:
-            res = feedparser.parse(self._RSS_URL_FMT.format(KEYWORD=keyword_encoded))
-            entries = res.entries
+            feed = self._fetch(self._RSS_URL_FMT.format(KEYWORD=keyword_encoded))
+            entries = feed.entries
         except Exception as e:
             callback.on_failed(e, kwargs)
+            return
 
         callback.on_finished(entries, kwargs)
+
+    @timeout(60)
+    def _fetch(self, url):
+        return feedparser.parse(url)
