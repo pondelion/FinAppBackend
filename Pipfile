@@ -25,6 +25,7 @@ tqdm = "*"
 schedule = "*"
 feedparser = "*"
 timeout-decorator = "*"
+pandas-datareader = "*"
 
 [requires]
 python_version = "3.7"
