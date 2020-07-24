@@ -1,2 +1,3 @@
 from .stockprice.stockprice_crawler import StockpriceCrawler
+from .stockprice.stooq import StooqCrawler
 from .company_announcement.company_announcement_crawler import CompanyAnnouncementCrawler

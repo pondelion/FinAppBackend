@@ -26,7 +26,8 @@ class FredCrawler(BaseCrawler):
         callback: BaseCrawler.Callback = BaseCrawler.DefaultCallback(),
     ) -> None:
         kwargs = {
-            'tag': tag
+            'tag': tag,
+            'name': self._get_name(),
         }
         try:
             data = web.DataReader(tag, 'fred', start_dt)
@@ -36,4 +37,8 @@ class FredCrawler(BaseCrawler):
 
     @abstractmethod
     def _get_tag(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def _get_name(self):
         raise NotImplementedError
