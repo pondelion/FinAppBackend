@@ -7,6 +7,10 @@ import pandas as pd
 
 from fin_app.crawler import StooqCrawler
 from fin_app.utils.config import DataLocationConfig
+from fin_app.utils.logger import Logger
+
+
+TAG = 'stooq_crawl'
 
 
 class Callback(StooqCrawler.Callback):
@@ -47,6 +51,8 @@ def main():
 
     sc = StooqCrawler()
     for code in codes:
+        if code < 2815:
+            continue
         sc.run(
             code=code,
             callback=Callback()
