@@ -25,7 +25,7 @@ def main():
     STOCKPRICE_FILEPATH_FMT = 's3://fin-app/stockprice_concat/{code}.csv'
 
     for code in codes[100:101]:
-        code = 1301
+        code = 1382
         try:
             df = pd.read_csv(
                 STOCKPRICE_FILEPATH_FMT.format(code=code)
@@ -53,7 +53,7 @@ def main():
             x['high'],
             x['low']
         ), axis=1)
-        print(df[df['stop_high_low']])
+        print(df[df['stop_high_low']==1])
 
 
 if __name__ == '__main__':
