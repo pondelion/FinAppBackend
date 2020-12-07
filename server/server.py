@@ -1,13 +1,16 @@
 import sys
 sys.path.append('..')
+import os
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import pandas as pd
 
 from fin_app.utils.config import DataLocationConfig
 
 
 app = Flask(__name__)
+CORS(app)
 app.config['JSON_AS_ASCII'] = False 
 
 df_stocklist = pd.read_csv(
@@ -39,6 +42,11 @@ FINANCIAL_DATA_COLS = [
     '総資産経常利益率', '総資産純利益率', '総資産親会社株主に帰属する純利益率', '自己資本', '有利子負債', 
 ]
 df_company_financial_data = df_company_data[FINANCIAL_DATA_COLS]
+
+
+@app.route('/')
+def index():
+    return 'test'
 
 
 @app.route('/company_list', methods=['GET'])
@@ -103,6 +111,70 @@ def company_financial_data(ticker: int=None):
     return jsonify({'company_financial_data': company_financial_data})
 
 
+@app.route('/company_announcement', methods=['GET'])
+@app.route('/company_announcement/<int:ticker>', methods=['GET'])
+def company_announcement(ticker: int=None):
+    pass
+
+
+@app.route('/stock_price/<int:ticker>', methods=['GET'])
+def stock_price(ticker: int):
+
+    year = request.args.get('year', None)
+
+    CONCAT_DATA_FMT = os.path.join(
+        DataLocationConfig.STOCKPRICE_CONCAT_BASEDIR,
+        '{ticker}.csv'
+    )
+    DATA_FORMAT = os.path.join(
+        DataLocationConfig.STOCKPRICE_BASEDIR,
+        '{year}',
+        '{ticker}.csv'
+    )
+
+    if year is None:
+        filepath = CONCAT_DATA_FMT.format(ticker=ticker)
+    else:
+        filepath = DATA_FORMAT.format(year=year, ticker=ticker)
+    
+    try:
+        df = pd.read_csv(filepath)
+    except Exception as e:
+        print(e)
+        df = []
+    
+    COLS = ['日付', '終値', '始値', '高値', '安値', '出来高']
+
+    if len(df) > 0:
+        stock_price_data = df.apply(
+            lambda x: {col_name: x[col_name] for col_name in COLS},
+            axis=1
+        ).to_list()
+    else:
+        stock_price_data = []
+
+    return jsonify({'stock_price': stock_price_data})
+
+
+@app.route('/economic_indocator/<string:indicator_name>', methods=['GET'])
+def economic_indocator(indicator_name: str):
+    pass
+
+
+@app.route('/twitter_tweet/<int:ticker>', methods=['GET'])
+def twitter_tweet(ticker: int):
+    pass
+
+
+@app.route('/twitter_trend', methods=['GET'])
+def twitter_trend():
+    pass
+
+
+@app.route('/google_news', methods=['GET'])
+def google_news():
+    pass
+
+
 if __name__ == '__main__':
-    app.debug = True
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5000, debug=True)
