@@ -1,4 +1,4 @@
-from .fred import FredCrawler
+from ..fred import FredCrawler
 
 
 class GDPCrawler(FredCrawler):

@@ -1,6 +1,7 @@
 import sys
 sys.path.append('../..')
 import os
+import time
 from typing import Dict
 
 import pandas as pd
@@ -11,6 +12,10 @@ from fin_app.utils.logger import Logger
 
 
 TAG = 'stooq_crawl'
+g_fail_cnt = 0
+g_last_success_code = 5563
+g_reached_end = False
+MAX_FAIL_CNT = 20
 
 
 class Callback(StooqCrawler.Callback):
@@ -22,22 +27,45 @@ class Callback(StooqCrawler.Callback):
     ) -> None:
 
         filepath = os.path.join(
-            DataLocationConfig.STOCKPRICE_BASEDIR,
-            'stooq',
+            DataLocationConfig.STOCKPRICE_STOOQ_CONCAT_BASEDIR,
             f'{args["code"]}.csv'
         )
-        data.to_csv(
-            filepath,
-            index=None,
-        )
-        print(f'Saved data to {filepath}')
+        data.to_csv(filepath)
+        Logger.d(TAG, f'Saved data to {filepath}')
+        global g_last_success_code
+        global g_fail_cnt
+        g_last_success_code = args["code"]
+        g_fail_cnt = 0
 
     def on_failed(
         self,
         e: Exception,
         args: Dict,
     ) -> None:
-        print(f'on_failed : {args["code"]} : {e}')
+        Logger.d(TAG, f'on_failed : {args["code"]} : {e}')
+        global g_fail_cnt
+        g_fail_cnt += 1
+
+
+def crawl(crawler, codes, start_code):
+
+    for code in codes:
+        if code < start_code:
+            continue
+        crawler.run(
+            code=code,
+            callback=Callback()
+        )
+        time.sleep(20)
+        if code == max(codes):
+            global g_reached_end
+            g_reached_end = True
+        
+        global g_fail_cnt
+        if g_fail_cnt >= MAX_FAIL_CNT:
+            Logger.d(TAG, 'stooq restriction detected, waiting 2hour')
+            time.sleep(60*120)
+            return
 
 
 def main():
@@ -45,18 +73,20 @@ def main():
         DataLocationConfig.STOCKLIST_FILE
     )
 
-    print(df_stocklist['銘柄コード'].unique())
+    Logger.d(TAG, df_stocklist['銘柄コード'].unique())
 
     codes = df_stocklist['銘柄コード'].unique()
 
     sc = StooqCrawler()
-    for code in codes:
-        if code < 2815:
-            continue
-        sc.run(
-            code=code,
-            callback=Callback()
-        )
+
+    while sc.check_restriction() is False:
+        Logger.d(TAG, 'stooq restriction detected, waiting 1hour')
+        time.sleep(60*60)
+
+    global g_reached_end
+    while g_reached_end:
+        global g_last_success_code
+        crawl(sc, codes, g_last_success_code+1)
 
 
 if __name__ == '__main__':

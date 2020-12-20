@@ -5,12 +5,23 @@ from typing import Dict
 
 import pandas as pd
 
-from fin_app.crawler.economic_indicators import (
+from fin_app.crawler.economic_indicators.ja import (
     CPICrawler,
     GDPCrawler,
     PPICrawler,
     IndustrialProductionCrawler,
-    RetailSalesCrawler
+    RetailSalesCrawler,
+    InternationalTradeExportsCrawler,
+    InternationalTradeImportsCrawler,
+    InterestRateCrawler,
+    Nikkei225StockAverageCrawler,
+    GovernmentDebtCrawler,
+    RealNetExportsGoodServicesCrawler,
+    ResidentalPropertyPriceCrawler,
+    TotalIndustryProductionCrawler,
+    UnemploymentRateCrawler,
+    WorkingAgePopulationCrawler,
+    RealEffectiveExchangeRateCrawler,
 )
 from fin_app.crawler.economic_indicators.fred import FredCrawler
 from fin_app.utils.config import DataLocationConfig
@@ -55,12 +66,22 @@ def main():
         GDPCrawler(),
         PPICrawler(),
         IndustrialProductionCrawler(),
-        RetailSalesCrawler()
+        RetailSalesCrawler(),
+        InternationalTradeExportsCrawler(),
+        InternationalTradeImportsCrawler(),
+        InterestRateCrawler(),
+        Nikkei225StockAverageCrawler(),
+        RealNetExportsGoodServicesCrawler(),
+        ResidentalPropertyPriceCrawler(),
+        TotalIndustryProductionCrawler(),
+        UnemploymentRateCrawler(),
+        WorkingAgePopulationCrawler(),
+        RealEffectiveExchangeRateCrawler(),
     )
 
     for c in crawlers:
         c.run(
-            start_dt='2005-01-01',
+            start_dt='2000-01-01',
             callback=Callback()
         )
 
