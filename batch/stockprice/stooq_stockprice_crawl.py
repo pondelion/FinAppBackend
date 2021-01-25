@@ -13,9 +13,9 @@ from fin_app.utils.logger import Logger
 
 TAG = 'stooq_crawl'
 g_fail_cnt = 0
-g_last_success_code = 5563
+g_last_success_code = 6926
 g_reached_end = False
-MAX_FAIL_CNT = 20
+MAX_FAIL_CNT = 40
 
 
 class Callback(StooqCrawler.Callback):
@@ -63,8 +63,10 @@ def crawl(crawler, codes, start_code):
         
         global g_fail_cnt
         if g_fail_cnt >= MAX_FAIL_CNT:
-            Logger.d(TAG, 'stooq restriction detected, waiting 2hour')
-            time.sleep(60*120)
+            Logger.d(TAG, 'stooq restriction detected, waiting until unrestriction.')
+            while crawler.check_restriction() is False:
+                time.sleep(60*60)
+            g_fail_cnt = 0
             return
 
 
@@ -84,7 +86,7 @@ def main():
         time.sleep(60*60)
 
     global g_reached_end
-    while g_reached_end:
+    while g_reached_end == False:
         global g_last_success_code
         crawl(sc, codes, g_last_success_code+1)
 

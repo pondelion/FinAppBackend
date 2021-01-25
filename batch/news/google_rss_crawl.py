@@ -25,6 +25,7 @@ class Callback(TopicRSSCrawler.Callback):
             del d['published_parsed']
             d['topic'] = args['topic']
 
+        print(f'len(data) : {len(data)}')
         DynamoDB.put_items(
             AWSConfig.DYNAMODB_GOOGLE_RSS_NEWS_TABLE_NAME,
             data,
