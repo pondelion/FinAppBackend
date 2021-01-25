@@ -23,6 +23,9 @@ class S3(BaseStorage):
         """
         bucket = S3_resource.Bucket(bucket_name)
 
+        if s3_filepath.startswith('s3://'):
+            s3_filepath = s3_filepath.replace(f's3://{bucket_name}/', '')
+
         bucket.upload_file(
             local_filepath,
             s3_filepath
