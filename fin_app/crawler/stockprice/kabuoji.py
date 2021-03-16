@@ -8,7 +8,7 @@ from ..base_crawler import BaseCrawler
 from ...utils.logger import Logger
 
 
-class StockpriceCrawler(BaseCrawler):
+class KabuojiCrawler(BaseCrawler):
 
     def __init__(self):
         self._URL = 'https://kabuoji3.com/stock/file.php'

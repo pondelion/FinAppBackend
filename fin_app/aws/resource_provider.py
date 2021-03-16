@@ -10,3 +10,4 @@ _aws_session = boto3.session.Session(
 
 DYNAMO_DB = _aws_session.resource('dynamodb')
 S3 = _aws_session.resource('s3')
+SQS = _aws_session.resource('sqs')

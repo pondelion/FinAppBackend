@@ -5,7 +5,7 @@ from typing import Dict
 
 import pandas as pd
 
-from fin_app.crawler import StockpriceCrawler
+from fin_app.crawler import KabuojiCrawler
 from fin_app.utils.config import DataLocationConfig
 
 
@@ -45,7 +45,7 @@ def main():
     years = range(2020, 2020+1)
     codes = df_stocklist['銘柄コード'].unique()
 
-    sc = StockpriceCrawler()
+    sc = KabuojiCrawler()
     for code in codes:
         for year in years:
             sc.run(
