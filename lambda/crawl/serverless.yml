@@ -1,0 +1,46 @@
+service: finapp-crawl
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  profile: default
+  stage: dev
+  region: ap-northeast-1
+  memorySize: 2048
+  ecr:
+    images:
+      crwalimage:
+        path: ../../docker/lambda/crawl
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+            - 's3:ListBucket'
+          Resource:
+            - "*"
+        - Effect: 'Allow'
+          Action:
+            - 'dynamodb:GetItem'
+            - 'dynamodb:PutItem'
+            - 'dynamodb:UpdateItem'
+          Resource:
+            - "*"
+  environment:
+    TZ: Asia/Tokyo
+
+functions:
+  stockpriceCrawlDaily:
+    image:
+      name: crwalimage
+      command:
+        - FinAppBackend.lambda.crawl.functions.stockprice_crawl.crawl
+      entryPoint:
+        - '/lambda-entrypoint.sh'
+    events:
+      - schedule: cron(0 0 * * *)
+    timeout: 900
