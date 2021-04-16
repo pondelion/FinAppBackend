@@ -39,16 +39,13 @@ class Callback(FredCrawler.Callback):
         args: Dict,
     ) -> None:
         print(args['tag'])
-        print(data.head())
+        print(data)
         filepath = os.path.join(
             DataLocationConfig.ECONOMIC_INDICATOR_BASEDIR,
             'ja',
             f'{args["name"]}.csv'
         )
-        data.to_csv(
-            filepath,
-            index=None,
-        )
+        data.to_csv(filepath)
         Logger.i(TAG, f'Saved data to {filepath}')
 
     def on_failed(

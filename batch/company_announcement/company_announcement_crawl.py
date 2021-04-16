@@ -1,5 +1,5 @@
 import sys
-sys.path.append('..')
+sys.path.append('../..')
 from argparse import ArgumentParser
 from datetime import datetime, date, timedelta
 
@@ -33,8 +33,10 @@ def main():
 
     cac = CompanyAnnouncementCrawler()
 
-    start_dt = date(2010, 2, 3)
-    end_dt = date(2019, 12, 17)
+    # start_dt = date(2010, 2, 3)
+    # end_dt = date(2019, 12, 17)
+    start_dt = date(2019, 12, 18)
+    end_dt = date(2021, 4, 9)
 
     for i in range((end_dt - start_dt).days + 1):
         dt = end_dt - timedelta(i)

@@ -26,6 +26,7 @@ schedule = "*"
 feedparser = "*"
 timeout-decorator = "*"
 pandas-datareader = "*"
+yfinance = {git = "https://github.com/ranaroussi/yfinance.git"}
 
 [requires]
 python_version = "3.7"
