@@ -15,7 +15,9 @@ DEFAULT_DEV_FILEPATH = os.path.join(
 )
 dev_conf = yaml.safe_load(open(DEFAULT_DEV_FILEPATH))
 filename = os.path.join(
-    dev_conf['LOGDIR'],
+    os.path.dirname(os.path.abspath(__file__)),
+    '..', '..',
+    'log',
     f'{datetime.now().strftime("%Y%m%d_%H%M%S")}.log',
 )
 file_handler = logging.FileHandler(
