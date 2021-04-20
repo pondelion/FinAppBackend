@@ -9,7 +9,7 @@ RUN git clone https://github.com/pondelion/FinAppBackend.git && \
     # pipenv install --skip-lock --dev -e .
     pipenv lock --keep-outdated --requirements > requirements.txt && \
     pip install -r requirements.txt && \
-    pip install -e .
+    pip install -e . && ls
 COPY ./lambda/example_handler.py .
 RUN cp FinAppBackend/lambda/crawl/functions/* .
 COPY ./fin_app/config/*  ./FinAppBackend/fin_app/config/

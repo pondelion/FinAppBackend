@@ -47,14 +47,14 @@ class _AWSConfig(type):
     try:
         config = _load_aws_config()
     except Exception as e:
-        Logger.w(__class__, f'Failed to load aws config filr : {e}')
+        Logger.w('Config', f'Failed to load aws config filr : {e}')
         config = {}
 
     def __getattr__(cls, key: str):
         try:
             return cls.config[key]
         except Exception as e:
-            Logger.e(__class__, f'No config value found for {key}')
+            Logger.e('Config', f'No config value found for {key}')
             raise e
 
 
@@ -62,14 +62,14 @@ class _TwitterConfig(type):
     try:
         config = _load_twitter_config()
     except Exception as e:
-        Logger.w(__class__, f'Failed to load twitter config filr : {e}')
+        Logger.w('Config', f'Failed to load twitter config filr : {e}')
         config = {}
 
     def __getattr__(cls, key: str):
         try:
             return cls.config[key]
         except Exception as e:
-            Logger.e(__class__, f'No config value found for {key}')
+            Logger.e('Config', f'No config value found for {key}')
             raise e
 
 
@@ -77,14 +77,14 @@ class _DataLocationConfig(type):
     try:
         config = _load_datalocation_config()
     except Exception as e:
-        Logger.w(__class__, f'Failed to load data_location config filr : {e}')
+        Logger.w('Config', f'Failed to load data_location config filr : {e}')
         config = {}
 
     def __getattr__(cls, key: str):
         try:
             return cls.config[key]
         except Exception as e:
-            Logger.e(__class__, f'No config value found for {key}')
+            Logger.e('Config', f'No config value found for {key}')
             raise e
 
 
@@ -92,14 +92,14 @@ class _DevConfig(type):
     try:
         config = _load_dev_config()
     except Exception as e:
-        Logger.w(__class__, f'Failed to load dev config filr : {e}')
+        Logger.w('Config', f'Failed to load dev config filr : {e}')
         config = {}
 
     def __getattr__(cls, key: str):
         try:
             return cls.config[key]
         except Exception as e:
-            Logger.e(__class__, f'No config value found for {key}')
+            Logger.e('Config', f'No config value found for {key}')
             raise e
 
 
