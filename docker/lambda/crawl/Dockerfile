@@ -11,6 +11,6 @@ RUN cd FinAppBackend && \
     pip install -r requirements.txt && \
     pip install -e .
 COPY ./lambda/example_handler.py .
-COPY ./lambda/example_handler.py ./FinAppBackend/
+RUN cp FinAppBackend/lambda/crawl/functions/* .
 COPY ./fin_app/config/*  ./FinAppBackend/fin_app/config/
 CMD ["app.handler"]

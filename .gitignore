@@ -7,4 +7,4 @@ dev.yml
 .mypy_cache
 .pytest_cache
 .envrc
-log
+log/*.log

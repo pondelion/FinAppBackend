@@ -44,7 +44,11 @@ def _load_dev_config(filepath: str = DEFAULT_DEV_FILEPATH):
 
 
 class _AWSConfig(type):
-    config = _load_aws_config()
+    try:
+        config = _load_aws_config()
+    except Exception as e:
+        Logger.w(__class__, f'Failed to load aws config filr : {e}')
+        config = {}
 
     def __getattr__(cls, key: str):
         try:
@@ -55,7 +59,11 @@ class _AWSConfig(type):
 
 
 class _TwitterConfig(type):
-    config = _load_twitter_config()
+    try:
+        config = _load_twitter_config()
+    except Exception as e:
+        Logger.w(__class__, f'Failed to load twitter config filr : {e}')
+        config = {}
 
     def __getattr__(cls, key: str):
         try:
@@ -66,7 +74,11 @@ class _TwitterConfig(type):
 
 
 class _DataLocationConfig(type):
-    config = _load_datalocation_config()
+    try:
+        config = _load_datalocation_config()
+    except Exception as e:
+        Logger.w(__class__, f'Failed to load data_location config filr : {e}')
+        config = {}
 
     def __getattr__(cls, key: str):
         try:
@@ -77,7 +89,11 @@ class _DataLocationConfig(type):
 
 
 class _DevConfig(type):
-    config = _load_dev_config()
+    try:
+        config = _load_dev_config()
+    except Exception as e:
+        Logger.w(__class__, f'Failed to load dev config filr : {e}')
+        config = {}
 
     def __getattr__(cls, key: str):
         try:
