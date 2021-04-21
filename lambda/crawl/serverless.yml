@@ -34,11 +34,11 @@ provider:
     TZ: Asia/Tokyo
 
 functions:
-  stockpriceCrawlDaily:
+  stockprice-crawl-daily:
     image:
       name: "${env:ECR_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/finapp-lambda-crawl@${env:IMAGE_SHA_HASH}"
       command:
-        - FinAppBackend.lambda.crawl.functions.stockprice_crawl.crawl
+        - stockprice_crawl.crawl
       entryPoint:
         - '/lambda-entrypoint.sh'
     events:

@@ -26,7 +26,7 @@ class YfinanceCrawler(BaseCrawler):
             if start_dt is not None:
                 history_kwargs['start'] = kwargs['start_dt'] = start_dt
             if end_dt is not None:
-                history_kwargs['end'] =  kwargs['end_dt'] = end_dt + timedelta(days=1)
+                history_kwargs['end'] =  kwargs['end_dt'] = end_dt# + timedelta(days=1)
             if start_dt is None and end_dt is None:
                 history_kwargs['period'] = period
             df = ticker.history(**history_kwargs)
