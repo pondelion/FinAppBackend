@@ -14,21 +14,21 @@ logging.basicConfig(format=formatter)
 #     'config/dev.yml'
 # )
 # dev_conf = yaml.safe_load(open(DEFAULT_DEV_FILEPATH))
-filename = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    '..', '..',
-    'log',
-    f'{datetime.now().strftime("%Y%m%d_%H%M%S")}.log',
-)
-file_handler = logging.FileHandler(
-    filename=filename
-)
-file_handler.setFormatter(logging.Formatter(formatter))
 
 
 class Logger:
     logger = logging.getLogger('fin_app')
     if 'LAMBDA' not in os.environ:
+        filename = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            '..', '..',
+            'log',
+            f'{datetime.now().strftime("%Y%m%d_%H%M%S")}.log',
+        )
+        file_handler = logging.FileHandler(
+            filename=filename
+        )
+        file_handler.setFormatter(logging.Formatter(formatter))
         logger.addHandler(file_handler)
 
     @staticmethod
