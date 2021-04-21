@@ -27,6 +27,7 @@ feedparser = "*"
 timeout-decorator = "*"
 pandas-datareader = "*"
 yfinance = {git = "https://github.com/ranaroussi/yfinance.git"}
+pytrends = "*"
 
 [requires]
 python_version = "3.7"
