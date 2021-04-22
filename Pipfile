@@ -28,6 +28,7 @@ timeout-decorator = "*"
 pandas-datareader = "*"
 yfinance = {git = "https://github.com/ranaroussi/yfinance.git"}
 pytrends = "*"
+fin-app = {editable = true, path = "."}
 
 [requires]
 python_version = "3.7"

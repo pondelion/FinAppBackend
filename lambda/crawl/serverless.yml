@@ -9,10 +9,6 @@ provider:
   stage: dev
   region: ap-northeast-1
   memorySize: 2048
-  ecr:
-    images:
-      crwalimage:
-        path: ../../docker/lambda/crawl
   iam:
     role:
       statements:
@@ -34,7 +30,7 @@ provider:
     TZ: Asia/Tokyo
 
 functions:
-  stockprice-crawl-daily:
+  stockprice-crawl-daily-1000-3000:
     image:
       name: "${env:ECR_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/finapp-lambda-crawl@${env:IMAGE_SHA_HASH}"
       command:
@@ -43,4 +39,8 @@ functions:
         - '/lambda-entrypoint.sh'
     events:
       - schedule: cron(0 0 * * *)
-    timeout: 900
+    timeout: 1200
+    environment:
+      LAMBDA: 1
+      START_CODE: 1000
+      END_CODE: 3000

@@ -8,3 +8,5 @@ dev.yml
 .pytest_cache
 .envrc
 log/*.log
+fin_app.egg-info
+pyproject.toml

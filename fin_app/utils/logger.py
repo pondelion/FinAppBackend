@@ -18,7 +18,7 @@ logging.basicConfig(format=formatter)
 
 class Logger:
     logger = logging.getLogger('fin_app')
-    if 'LAMBDA' not in os.environ:
+    try:
         filename = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             '..', '..',
@@ -30,6 +30,8 @@ class Logger:
         )
         file_handler.setFormatter(logging.Formatter(formatter))
         logger.addHandler(file_handler)
+    except Exception as ex:
+        print(ex)
 
     @staticmethod
     def d(tag: str, message: str):
