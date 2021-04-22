@@ -13,7 +13,7 @@ from fin_app.storage.s3 import S3
 TAG = 'yfinance stockprice crawl'
 START_CODE = os.environ.get('START_CODE', None)
 END_CODE = os.environ.get('END_CODE', None)
-CODE_SUFFIX = f'_{START_CODE}_{END_CODE}' if START_CODE is not None and END_CODE is not None else ''
+CODE_SUFFIX = f'{START_CODE}_{END_CODE}' if START_CODE is not None and END_CODE is not None else ''
 
 
 class Callback(YfinanceCrawler.Callback):
@@ -23,6 +23,7 @@ class Callback(YfinanceCrawler.Callback):
         data: pd.DataFrame,
         args: Dict,
     ) -> None:
+        data = data[data.index.date==date.today()-timedelta(days=1)]
         local_dir = os.path.join(
             '/tmp',
             'stock'
@@ -67,7 +68,11 @@ def _crawl():
     codes = df_stocklist['銘柄コード'].unique().tolist()
 
     yfc = YfinanceCrawler()
-    start_dt = end_dt = date.today() - timedelta(days=1)
+    # start_dt = end_dt = date.today() - timedelta(days=1)
+    start_dt = date.today() - timedelta(days=3)
+    end_dt = date.today()
+
+    Logger.i(TAG, f'start crawling {START_CODE}~{END_CODE}, {start_dt.strftime("%Y%m%d")}')
 
     yfc.run(
         code=codes,

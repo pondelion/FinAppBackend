@@ -56,4 +56,6 @@ class YfinanceCrawler(BaseCrawler):
                 dfs.append(df_)
             except Exception as e:
                 Logger.w('YfinanceCrawler._process_multiticker_df', e)
-        return pd.concat(dfs)
+        df = pd.concat(dfs)
+        df.index = pd.to_datetime(df.index)
+        return df
